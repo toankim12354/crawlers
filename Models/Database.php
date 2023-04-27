@@ -9,9 +9,6 @@ class Database implements DatabaseInterface {
     /**
      * @var false|mysqli
      */
-    private $titli;
-    private $content;
-    private $date;
 
 
     /**
@@ -29,26 +26,18 @@ class Database implements DatabaseInterface {
     public function insert(string $table, array $data): bool|string
     {
         $table = 'posts';
-        $title =$this->titli ;
-        $content = $this->content ;
-        $date = $this->date;
+        $title =$data->$this->titli ;
+        $content = $data->$this->content ;
+        $date = $data->$this->date;
         $sql = "INSERT INTO $table (title, content, date) VALUES ('$title', '$content', '$date')";
         try {
             return mysqli_query($this->conn, $sql);
         } catch (mysqli_sql_exception $e) {
             echo 'Error: ' . $e->getMessage();
         }
+        return false;
     }
 
-    /**
-     *filter special characters
-     * @param $value
-     * @return string
-     */
-    public function escape($value): string
-    {
-        return mysqli_real_escape_string($this->conn, $value);
-    }
 
 
 }
