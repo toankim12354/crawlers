@@ -2,14 +2,17 @@
 
 abstract class BaseParser implements ParserInterface
 {
-protected string $url;
-protected string $title;
-protected string $content;
-protected string $date;
+    protected string $url;
+    protected string $title;
+    protected string $content;
+    protected string $date;
 
-    public function __construct($url)
+    public function __construct($url,string$title,string $content,string $date)
     {
         $this->url = $url;
+        $this->title = $title;
+        $this->content = $content;
+        $this->date = $date;
     }
     /**
      * check url
