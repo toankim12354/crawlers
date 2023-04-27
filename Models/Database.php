@@ -23,6 +23,11 @@ class Database implements DatabaseInterface {
     }
 //data processed with in the database
 
+    /**
+     * @param string $table
+     * @param array $data
+     * @return bool|string
+     */
     public function insert(string $table, array $data): bool|string
     {
         $table = 'posts';
