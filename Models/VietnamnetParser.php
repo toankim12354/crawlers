@@ -8,8 +8,11 @@ use BaseParser;
 
 class VietnamnetParser extends BaseParser
 {
-    public function __construct(string $url, string $title, string $content, string $date)
+    const TITLE_SELECT =  'content-detail-title';
+    const CONTENT_SELECT =  'maincontent';
+    const DATA_SELECT = 'bread-crumb-detail__time';
+    public function __construct()
     {
-        parent::__construct($url, $title, $content, $date);
+
     }
 }

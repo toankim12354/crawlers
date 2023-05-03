@@ -1,30 +1,66 @@
 <?php
 
 namespace Crawlers\Controllers;
+use Global\Singleton;
+use Crawlers\Controllers\Controller;
+use Crawlers\Models\DatabaseInterface;
+use Exception;
+use ParserFactory;
 
- use Exception;
+class  BaseController extends Controller
+{
+    private DatabaseInterface $database;
 
+    public function __construct(DatabaseInterface $database)
+    {
+        $this->database = $database;
+    }
 
- class BaseController extends Controller
- {
+    /**
+     * @return void
+     */
+    public function load(): void
+    {
+        try {
+            $url = $_POST['url'] ?? '';
 
+            /**
+             * @var ParserFactory $parser
+             */
+            $factory = Global\Singleton::getInstance('factory');
+            $dabase = Gobal\Singleton::getInstance('dabase');
+            $parser = null;
+            if (str_contains($url, "dantri.com.vn")) {
+                $parser = $factory->create('dantri');
+            } elseif (str_contains($url, "vietnamnet.vn")) {
+                $parser = $factory->create('vietnamnet');
+            } elseif (str_contains($url, "vnexpress.net")) {
+                $parser = $factory->create('vnexpress');
+            }
+            $parser->initData(['url' => $url]);
+            $data = $parser->parse();
 
-     /**
-      * @throws Exception
-      */
-     public function checkUrl($url): array
-     {
+            if ($data !== null) {
+                $inserted = $this->database->insert('wrapper', $data);
+                if ($inserted === false) {
+                    echo "Insert to database failed";
+                } else {
+                    echo "Insert to database success";
+                }
+            } else {
+                echo "Empty data";
+            }
+        } catch (Exception $e) {
+            var_dump($e->getMessage(), $parser);
+            echo "Crawl failed";
+        }
+    }
 
-         $Link = (new \ParserFactory)->CheckLink($url);
-         $contents = file_get_contents($url);
-
-         if ($contents === false) {
-             return (['error' => 'Failed to fetch URL']);
-         } else {
-
-             return (['success' => 'URL was fetched successfully']);
-         }
-
-     }
-
- }
+    /**
+     * @return void
+     */
+    public function form(): void
+    {
+        $this->view('index');
+    }
+}

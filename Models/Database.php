@@ -1,27 +1,34 @@
 <?php
 
 namespace Crawlers\Models;
-use DatabaseInterface;
-use mysqli;
-use mysqli_sql_exception;
 
-class Database implements DatabaseInterface {
+
+use PDO;
+use PDOException;
+
+class Database implements DatabaseInterface
+{
+    private PDO $conn;
+
     /**
-     * @var false|mysqli
-     */
-
-
-    /**
-     * connect to database
      * @param string $host
+     * @param string $dbname
      * @param string $username
      * @param string $password
-     * @param string $dbname
      */
-    public function __construct(string $host, string $username, string $password, string $dbname) {
-        $this->conn = mysqli_connect($host, $username, $password, $dbname);
+
+
+
+    public function __construct(string $host, string $dbname, string $username, string $password)
+    {
+        $dsn = "mysql:host=$host;dbname=$dbname";
+        try {
+            $this->conn = new PDO($dsn, $username, $password);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Connection failed: " . $e->getMessage());
+        }
     }
-//data processed with in the database
 
     /**
      * @param string $table
@@ -30,19 +37,13 @@ class Database implements DatabaseInterface {
      */
     public function insert(string $table, array $data): bool|string
     {
-        $table = 'posts';
-        $title =$data->$this->titli ;
-        $content = $data->$this->content ;
-        $date = $data->$this->date;
-        $sql = "INSERT INTO $table (title, content, date) VALUES ('$title', '$content', '$date')";
-        try {
-            return mysqli_query($this->conn, $sql);
-        } catch (mysqli_sql_exception $e) {
-            echo 'Error: ' . $e->getMessage();
-        }
-        return false;
+        $columns = implode(", ", array_keys($data));
+        $values = ":" . implode(", :", array_keys($data));
+        $query = "INSERT INTO $table ($columns) VALUES ($values)";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute($data);
+
+        return $this->conn->lastInsertId();
     }
-
-
-
 }

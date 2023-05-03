@@ -1,4 +1,5 @@
 <?php
+namespace Crawlers\Models;
 
 abstract class BaseParser implements ParserInterface
 {
@@ -7,12 +8,12 @@ abstract class BaseParser implements ParserInterface
     protected string $content;
     protected string $date;
 
-    public function __construct($url,string$title,string $content,string $date)
+    public function initData(array $data): this
     {
+        $url = $data['url'];
         $this->url = $url;
-        $this->title = $title;
-        $this->content = $content;
-        $this->date = $date;
+        //more init informations
+        return $this;
     }
     /**
      * check url

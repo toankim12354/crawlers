@@ -9,10 +9,12 @@ use BaseParser;
  */
 class DantriParser extends BaseParser
 {
-
-    public function __construct(string $url, string $title, string $content, string $date)
+    const TITLE_SELECT = 'title-page detail';
+    const CONTENT_SELECT = 'singular-content p';
+    const DATA_SELECT =  'date';
+    public function __construct()
     {
-        parent::__construct($url, $title, $content, $date);
+
     }
 
 

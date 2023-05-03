@@ -1,4 +1,5 @@
 <?php
+namespace Crawlers\Models;
 interface DatabaseInterface {
     /**
      * @param string $table

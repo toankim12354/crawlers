@@ -11,5 +11,7 @@
             "name": "toanlt"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }

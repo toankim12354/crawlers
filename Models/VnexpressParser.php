@@ -6,8 +6,13 @@ use BaseParser;
 
 class VnexpressParser extends BaseParser
 {
-    public function __construct(string $url, string $title, string $content, string $date)
+
+    const TITLE_SELECT = 'title-detail';
+    const CONTENT_SELECT = 'content-select';
+    const DATA_SELECT = 'data-select';
+
+    public function __construct()
     {
-        parent::__construct($url, $title, $content, $date);
     }
+
 }

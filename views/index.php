@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-<form action="" method="get">
+<form action="/crawler" method="get">
     <label>
         <input type="text" name="url">
     </label>
@@ -16,3 +16,6 @@
 </form>
 </body>
 </html>
+
+
+<?php

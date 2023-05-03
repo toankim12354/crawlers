@@ -1,0 +1,5 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="true" type="PhpHttpRequestRunConfigurationType" factoryName="PHP HTTP Request" singleton="false">
+    <method v="2" />
+  </configuration>
+</component>
